@@ -42,7 +42,19 @@
 	   },(time || 100));
 	   }
 	   }
+
 	</script>
+	<style>
+        .center-content{
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: left	;
+            font-family: Arial, sans-serif;
+        }
+    </style>
 	<script charset="utf-8" defer onerror="this.loaderr='y';" src="https://static.tildacdn.info/js/tilda-scripts-3.0.min.js">
 	</script>
 	<script async charset="utf-8" onerror="this.loaderr='y';" src="https://static.tildacdn.info/ws/project10015063/tilda-blocks-page51395303.min.js?t=1719833063">
@@ -123,6 +135,7 @@
 			#rec768457631 .t001__uptitle { text-transform: uppercase; }
 			</style>
 		</div>
+		
 		<div class="r t-rec t-rec_pt_60 t-rec_pb_60" data-record-type="106" id="rec768472010" style="padding-top:60px;padding-bottom:60px;">
 			<!-- T004 -->
 			<div class="t004">
@@ -140,17 +153,41 @@
 				</div>
 			</div>
 		</div>
+		<div class="center-content">
 		<head>
 			<meta charset="UTF-8">
 			<title>Upload</title>
 			<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		</head>
 		<body>
-			<h1>Загрузите файлы на обработку</h1>
-			<input type="file" id="file-input" accept="image/*" multiple>
-			<button id="upload-button">результаты анализа</button>
-			<div id="result"></div>
-		
+			<style>
+				#myChartContainer {
+					width: 400px;
+					height: 400px;
+					margin: 50px auto 0 auto;
+					margin-top: 10px;
+				}
+				a.button {
+					display: inline-block;
+					padding: 10px 20px;
+					background-color: #3498db;
+					color: #ffffff;
+					text-decoration: none;
+					border-radius: 5px;
+					font-weight: bold;
+				  }
+				  a.button:hover {
+					background-color: #2980b9;
+				  }
+			</style>
+			<div class="container">
+				<h1>Загрузите файлы на обработку</h1>
+				<input type="file" id="file-input" accept="image/*" multiple>
+				<button id="upload-button">upload</button>
+				<div id="result"></div>
+				
+			</div>
+			
 			<script>
 				$(document).ready(function() {
 					$('#upload-button').click(function() {
@@ -159,7 +196,7 @@
 						for (let i = 0; i < files.length; i++) {
 							formData.append('files', files[i]);
 						}
-		
+				
 						$.ajax({
 							url: '/upload_image',
 							type: 'POST',
@@ -169,11 +206,42 @@
 							success: function(data) {
 								let summedClasses = data.summed_classes;
 								let resultDiv = $('#result');
-								resultDiv.html('<h2>Summed Classes</h2>');
-								$.each(summedClasses, function(key, value) {
-									resultDiv.append('<p>' + key + ': ' + value + '</p>');
+								resultDiv.empty(); // Очищаем содержимое div
+				
+								// Устанавливаем размер Canvas
+								let ctx = $('#myChart');
+								ctx.attr('width', 400);  // Ширина в пикселях
+								ctx.attr('height', 400); // Высота в пикселях
+				
+								new Chart(ctx, {
+									type: 'doughnut',
+									data: {
+										labels: Object.keys(summedClasses),
+										datasets: [{
+											data: Object.values(summedClasses),
+											backgroundColor: [
+												'blue',
+												'green',
+												'red',
+												'lightblue',
+												'orange',
+												'pink'
+											]
+										}]
+									},
+									options: {
+										responsive: false,
+										maintainAspectRatio: false,
+										legend: {
+											display: true,
+											position: 'bottom',
+											labels: {
+												boxWidth: 10
+											}
+										}
+									}
 								});
-		
+				
 								let zipLink = $('<a></a>')
 									.attr('href', '/download_zip?filepath=' + data.zip_file)
 									.text('Download Processed Images')
@@ -185,6 +253,11 @@
 				});
 			</script>
 		</body>
+	</div>
+	<div id="myChartContainer">
+		<canvas id="myChart"></canvas>
+	</div>
+	
 		<div class="r t-rec t-rec_pt_30 t-rec_pb_30" data-record-type="219" id="rec768472533" style="padding-top:30px;padding-bottom:30px;">
 			<!-- T191 -->
 			<div class="t191">
@@ -211,5 +284,6 @@
 	   setTimeout(function(){ (function (d, w, k, o, g) { var n=d.getElementsByTagName(o)[0],s=d.createElement(o),f=function(){n.parentNode.insertBefore(s,n);}; s.type = "text/javascript"; s.async = true; s.key = k; s.id = "tildastatscript"; s.src=g; if (w.opera=="[object Opera]") {d.addEventListener("DOMContentLoaded", f, false);} else { f(); } })(document, window, 'ef1f3a44dea135acd3c79db8f5b2d7df','script','https://static.tildacdn.info/js/tilda-stat-1.0.min.js');
 	   }, 2000); 
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
