@@ -5,7 +5,7 @@ import zipfile
 from check import process_image
 
 UPLOAD_FOLDER = 'uploads'
-PROCESSED_FOLDER = 'processed_images'
+PROCESSED_FOLDER = 'checkSite/PROCESSED_FOLDER'
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100 MB
@@ -50,7 +50,7 @@ def upload_images():
 
 @app.route('/download_zip', methods=['GET'])
 def download_zip():
-    filepath = 'processed_images.zip'
+    filepath = 'PROCESSED_FOLDER\processed_images.zip'
     return send_file(filepath, mimetype='application/zip', as_attachment=True)
 
 if __name__ == '__main__':
