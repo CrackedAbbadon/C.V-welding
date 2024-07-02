@@ -1,0 +1,11 @@
+    path: D:\проктыкод\хахатон\dataset
+    train: ./images
+    val: ./images
+
+    names:
+    - 'Bad Welding'
+    - 'Crack'
+    - 'Excess Reinforcement'
+    - 'Good Welding'
+    - 'Porosity'
+    - 'Spatters'
