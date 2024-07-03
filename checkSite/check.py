@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from PIL import Image
 
-model = YOLO("vision/best.pt")  # загрузите предварительно обученную модель YOLOv8n
+model = YOLO("C.V-welding/vision/best.pt")  # загрузите предварительно обученную модель YOLOv8n
 CLASS_NAMES = ['Bad_Welding', 'Crack', 'Excess_Reinforcement', 'Good_Welding', 'Porosity', 'Spatters']
 
 colors = [
